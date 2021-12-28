@@ -16,7 +16,6 @@ class DescriptionImageView: UILabel{
         layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         font = UIFont.systemFont(ofSize: 25, weight: UIFont.Weight.medium)
         textAlignment = .left
-//        layer.cornerRadius = 10
         layer.borderWidth = 1
         layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
     }
@@ -28,17 +27,16 @@ class DescriptionImageView: UILabel{
     
     var unsplashPhoto:UnsplashPhoto?{
         didSet{
-            DispatchQueue.global().async { [weak self] in
-                guard let self = self else { return }
-                var str = ""
-                str.append("ID - \(self.unsplashPhoto?.id ?? "")"); str.append("\n")
-                str.append("Likes - \(self.unsplashPhoto?.likes ?? 0)"); str.append("\n")
-                str.append("Downloads - \(self.unsplashPhoto?.downloads ?? 0)")
-                DispatchQueue.main.async {
-                    
-                    self.text = str
-                }
+            guard let unsplashPhoto = self.unsplashPhoto else {
+                hide()
+                return
             }
+            show()
+            var str = ""
+            str.append("ID - \(unsplashPhoto.id)"); str.append("\n")
+            str.append("Likes - \(unsplashPhoto.likes)"); str.append("\n")
+            str.append("Downloads - \(unsplashPhoto.downloads)")
+            self.text = str
         }
     }
     
@@ -56,6 +54,15 @@ class DescriptionImageView: UILabel{
             contentSize.width += leftInset + rightInset
             return contentSize
         }
+    }
+    
+    private func hide(){
+        self.isHidden = true
+        layer.borderWidth = 0
+    }
+    private func show(){
+        self.isHidden = false
+        layer.borderWidth = 1
     }
 
 }

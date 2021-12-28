@@ -7,16 +7,16 @@
 
 import Foundation
 import UIKit
-import RealmSwift
 
 class ImagesCollectionViewController: UICollectionViewController {
     
     var networkDataFetcher = NetworkDataFetcher()
     private var timer: Timer?
-    private var realm = try! Realm()
+    private var databaseService:DatabaseService?
+//    private var realm = try! Realm()
     
     private var imagesModel:[UnsplashPhoto?] = []
-    private var images:Results<UnsplashPhotoObject>!
+//    private var images:Results<UnsplashPhotoObject>!
     
     private var selectedImages = [UIImage]()
     
@@ -35,8 +35,11 @@ class ImagesCollectionViewController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        images = realm.objects(UnsplashPhotoObject.self)
-        imagesModel = images.map({ UnsplashPhoto(managedObject: $0)})
+        if let objects = databaseService?.objects(){
+            imagesModel = objects
+        }
+//        images = databaseService.objects(UnsplashPhotoObject.self)
+//        imagesModel = images.map({ UnsplashPhoto(managedObject: $0)})
         self.collectionView.reloadData()
         self.refresh()
     }
@@ -47,14 +50,15 @@ class ImagesCollectionViewController: UICollectionViewController {
         
 //        view.addSubview(GradientView(frame: view.frame, isBackground: true))
 //        self.images.append(fetchedImages)
+//
+//
+//
+//
+//        images = realm.objects(UnsplashPhotoObject.self)
+//        imagesModel = images.map({ UnsplashPhoto(managedObject: $0)})
 
-
-        
-        
-        images = realm.objects(UnsplashPhotoObject.self)
-        imagesModel = images.map({ UnsplashPhoto(managedObject: $0)})
-        self.collectionView.reloadData()
-        self.refresh()
+//        self.collectionView.reloadData()
+//        self.refresh()
 
         
         undateNavButtonsState()
@@ -77,20 +81,18 @@ class ImagesCollectionViewController: UICollectionViewController {
     
     @objc private func removeImageButtonTapped() {
         let indexPaths = collectionView!.indexPathsForSelectedItems!
-        let indexes = indexPaths.map { item in
-            item.item
-        }
-        var newImages = [UnsplashPhotoObject]()
-        for (index, image) in images!.enumerated() {
-            if indexes.contains(index) {
-                newImages.append(image)
-            }
-        }
-        
-        let realm = try! Realm()
-        try! realm.write {
-            realm.delete(newImages)
-        }
+        databaseService?.remove(indexPaths)
+//        let indexes = indexPaths.map { item in
+//            item.item
+//        }
+//        var newImages = [UnsplashPhotoObject]()
+//        for (index, image) in imagesModel.enumerated() {
+//            if indexes.contains(index) , let image = image{
+//                newImages.append(image.managedObject())
+//            }
+//        }
+//
+//        databaseService?.remove(newImages)
         
         self.collectionView!.performBatchUpdates({ [weak self] in
             guard let self = self else { return }
@@ -143,19 +145,14 @@ class ImagesCollectionViewController: UICollectionViewController {
     // MARK: - UICollecionViewDataSource, UICollecionViewDelegate
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        if images != nil {
-            let count = images.count
-            return count
-        }
-        return 0
+        return imagesModel.count
     }
     
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.reuseId, for: indexPath) as! ImageCell
-        let unsplashPhoto = images[indexPath.item]
-        cell.unsplashPhoto = UnsplashPhoto(managedObject: unsplashPhoto)
+        let unsplashPhoto = imagesModel[indexPath.item]
+        cell.unsplashPhoto = unsplashPhoto
         return cell
     }
     
@@ -192,7 +189,7 @@ class ImagesCollectionViewController: UICollectionViewController {
 extension ImagesCollectionViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let image = images[indexPath.item]
+        guard let image = imagesModel[indexPath.item] else {return CGSize()}
         let paddingSpace = sectionInserts.left * (itemsPerRow + 1)
         let availableWidth = view.frame.width - paddingSpace
         let widthPerItem = availableWidth / itemsPerRow
@@ -207,4 +204,13 @@ extension ImagesCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return sectionInserts.left
     }
+}
+
+
+extension ImagesCollectionViewController: DatabaseServiceWorking{
+    
+    func setupDatabaseService(_ databaseService: DatabaseService) {
+        self.databaseService = databaseService
+    }
+    
 }

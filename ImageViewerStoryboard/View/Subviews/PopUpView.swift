@@ -25,13 +25,15 @@ class PopUpView: UILabel {
         backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
         text = textMessage
         textColor = .white
-        font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.bold)
-        heightAnchor.constraint(equalToConstant: 60).isActive = true
+        font = UIFont.systemFont(ofSize: 22, weight: UIFont.Weight.semibold)
+        heightAnchor.constraint(equalToConstant: 40).isActive = true
+        textAlignment = .center
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
 }
 

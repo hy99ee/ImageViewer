@@ -8,15 +8,19 @@
 import Foundation
 import UIKit
 
+
+
 class MainTabBarController: UITabBarController {
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let database = RealmDatabaseService()
         
         let favoritesPhotos = ImagesCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        favoritesPhotos.setupDatabaseService(database)
         let exploreView = ExploreViewConroller()
+        exploreView.setupDatabaseService(database)
         
         viewControllers = [
             generateNavigationController(rootViewController: exploreView, title: "Photos", image: #imageLiteral(resourceName: "photos")),

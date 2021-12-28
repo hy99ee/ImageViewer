@@ -12,9 +12,9 @@ class NetworkDataFetcher{
     
     func fetchImage(complition: @escaping ((UnsplashPhoto?, String?)) -> Void){
         networkService.request() { (data, error) in
-            if let error = error {
+            if let _ = error {
 //                print("Error recieved data: \(error.localizedDescription)")
-                let errorString = "\(error.localizedDescription)"
+                let errorString = NetworkError.ConnectionError.rawValue
                 complition((nil, errorString))
                 return
             }
@@ -42,7 +42,7 @@ class NetworkDataFetcher{
             let objects = try decoder.decode(type.self, from: data)
             return (objects,nil)
         } catch let jsonError {
-            let error = "Error to decode JSON:\n\(jsonError.localizedDescription)"
+            let error = NetworkError.ServiceError.rawValue
             return (nil, error)
         }
     }

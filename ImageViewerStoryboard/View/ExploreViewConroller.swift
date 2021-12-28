@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import RealmSwift
 import SwiftEntryKit
 
 extension UIView {
@@ -17,26 +16,26 @@ extension UIView {
     }
 }
 
-class ExploreViewConroller: UIViewController {
-
-//    private var gradientView:GradientView
-//    private var imageView:UIImageView{
-//        return UIImageView(frame: CGRect(x: view.center.x, y: view.center.y, width: view.frame.width, height: view.frame.height))
-//    }
+final class ExploreViewConroller: UIViewController {
+    
     private lazy var favoriteMark: UIBarButtonItem = {
         return UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(favoriteMarkPressed))
     }()
+    private var databaseService:DatabaseService?
     private var descriptionImageView:DescriptionImageView = DescriptionImageView()
     private let imageView = ImageView()
     private let networkDataFetcher:NetworkDataFetcher = NetworkDataFetcher()
+//    private let imageSetupTimer = UIBarButtonItem(customView: ImageSetupTimer())
+    lazy var imageSetupTimerLabel = ImageSetupTimerLabel(timeCount: 10, complition: setupImage)
+    private var isHidden = false
     private var _navigationsButtonsIsHidden:Bool = true
     private var navigationsButtonsIsHidden:Bool{
         set{
             if newValue{
-                navigationItem.rightBarButtonItem = favoriteMark
+                navigationItem.rightBarButtonItem = nil
             }
             else{
-                navigationItem.rightBarButtonItem = nil
+                navigationItem.rightBarButtonItem = favoriteMark
             }
         }
         get{
@@ -47,7 +46,12 @@ class ExploreViewConroller: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setupImage()
+        isHidden = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        isHidden = true
     }
     
     override func viewDidLoad() {
@@ -56,48 +60,61 @@ class ExploreViewConroller: UIViewController {
         view.addSubview(imageView, position: photoViewPosition)
         view.addSubview(descriptionImageView, position: descriptionImageViewPosition)
         navigationsButtonsIsHidden = true
-//        view.addSubview(favoriteMark, position: favoriteMarkPosition)
-//        view.addSubview(imageText, position: imageTextPosition)
-//        favoriteMark.addTarget(self, action: #selector(favoriteMarkPressed), for: .touchUpInside)
-
+        navigationItem.titleView = imageSetupTimerLabel
     }
     
     // MARK: - Buttons actions
 
     @objc func favoriteMarkPressed() {
-        let realm = try! Realm()
-        try! realm.write{
-            if let unsplashPhoto = imageView.unsplashPhoto {
-                realm.add(unsplashPhoto.managedObject())
-            }
-        }
-        navigationsButtonsIsHidden = false
-        
+        databaseService?.write(imageView.unsplashPhoto)
+        navigationsButtonsIsHidden = true
         
     }
-    
+}
 
+
+// MARK: - receiving and handling images
+extension ExploreViewConroller{
     
-    // MARK: - Take image from image generator and install this in the ImageView class
-   
     private func setupImage(){
         self.networkDataFetcher.fetchImage {[weak self] (unsplashPhotoResult, error) in
-            if let error = error { self?.errorRecieveNetworkData(error: error) }
-            self?.descriptionImageView.unsplashPhoto = unsplashPhotoResult
-            self?.imageView.unsplashPhoto = unsplashPhotoResult
-            self?.navigationsButtonsIsHidden = true
+            if let error = error{
+                self?.handleTheError(error: error)
+            }
+            else{
+                self?.handleEmptyError()
+            }
+            
+            self?.handleTheResult(unsplashPhotoResult: unsplashPhotoResult)
         }
-
+    }
+    
+    private func handleEmptyError(){
+        imageSetupTimerLabel.isError = false
+        navigationsButtonsIsHidden = false
+    }
+    
+    private func handleTheError(error:String){
+        if isHidden {return}
+        errorRecieveNetworkData(error: error)
+        imageSetupTimerLabel.isError = true
+        navigationsButtonsIsHidden = true
+    }
+    
+    private func handleTheResult(unsplashPhotoResult:UnsplashPhoto?){
+        descriptionImageView.unsplashPhoto = unsplashPhotoResult
+        imageView.unsplashPhoto = unsplashPhotoResult
+        
     }
     
     private func errorRecieveNetworkData(error:String){
         SwiftEntryKit.display(entry: PopUpView(with: error), using: EKAttributes.topToast)
     }
 }
-    
+
+
+// MARK: - Setup UI elements position
 extension ExploreViewConroller {
-    
-    // MARK: - Setup UI elements position
     
     private func photoViewPosition(){
         imageView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.6).isActive = true
@@ -107,7 +124,6 @@ extension ExploreViewConroller {
     }
     
     
-    
     private func descriptionImageViewPosition(){
         NSLayoutConstraint.activate([
             descriptionImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
@@ -115,8 +131,13 @@ extension ExploreViewConroller {
             descriptionImageView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10)
         ])
     }
+}
+
+extension ExploreViewConroller : DatabaseServiceWorking{
     
-    
+    func setupDatabaseService(_ databaseService: DatabaseService) {
+        self.databaseService = databaseService
+    }
     
 }
 

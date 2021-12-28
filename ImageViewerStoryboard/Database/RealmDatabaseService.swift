@@ -13,13 +13,14 @@ import RealmSwift
 final class RealmDatabaseService: DatabaseService{
     
     
+    private var _objects: Results<UnsplashPhotoObject>!
     func objects() -> [UnsplashPhoto?] {
         return _objects.map({ UnsplashPhoto(managedObject: $0)})
     }
     
     
     private let realm:Realm = try! Realm()
-    var _objects: Results<UnsplashPhotoObject>!
+    
     func updateObjects(){
         _objects = realm.objects(UnsplashPhotoObject.self)
     }
@@ -49,8 +50,6 @@ final class RealmDatabaseService: DatabaseService{
                 newImages.append(image)
             }
         }
-        
-//        databaseService?.remove(newImages)
         
         let realm = try! Realm()
         try! realm.write {

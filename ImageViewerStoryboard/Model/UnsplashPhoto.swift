@@ -19,8 +19,6 @@ struct UnsplashPhoto: Decodable, Hashable{
     let likes:Int
     let urls:[URLSizes.RawValue:String]
     
-    
-    
     enum URLSizes:String{
         case taw
         case full
@@ -30,3 +28,9 @@ struct UnsplashPhoto: Decodable, Hashable{
     }
 }
 
+enum UnsplashPhotoKeys: String{
+    case keyId = "id"
+    case keyLikes = "likes"
+    case keyDownloads = "downloads"
+    case keyUrl = "url"
+}

@@ -16,7 +16,6 @@ class ImagesCollectionViewController: UICollectionViewController {
 //    private var realm = try! Realm()
     
     private var imagesModel:[UnsplashPhoto?] = []
-//    private var images:Results<UnsplashPhotoObject>!
     
     private var selectedImages = [UIImage]()
     
@@ -31,6 +30,7 @@ class ImagesCollectionViewController: UICollectionViewController {
     private var numberOfSelectedPhotos: Int {
         return collectionView.indexPathsForSelectedItems?.count ?? 0
     }
+    
     // MARK: - View Life Cycle
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,20 +46,6 @@ class ImagesCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        view = GradientView(frame: view.frame, isBackground: true)
-        
-//        view.addSubview(GradientView(frame: view.frame, isBackground: true))
-//        self.images.append(fetchedImages)
-//
-//
-//
-//
-//        images = realm.objects(UnsplashPhotoObject.self)
-//        imagesModel = images.map({ UnsplashPhoto(managedObject: $0)})
-
-//        self.collectionView.reloadData()
-//        self.refresh()
-
         
         undateNavButtonsState()
         collectionView.backgroundColor = .white
@@ -80,44 +66,19 @@ class ImagesCollectionViewController: UICollectionViewController {
     // MARK: - NavigationItems action
     
     @objc private func removeImageButtonTapped() {
+       
         let indexPaths = collectionView!.indexPathsForSelectedItems!
-        databaseService?.remove(indexPaths)
-//        let indexes = indexPaths.map { item in
-//            item.item
-//        }
-//        var newImages = [UnsplashPhotoObject]()
-//        for (index, image) in imagesModel.enumerated() {
-//            if indexes.contains(index) , let image = image{
-//                newImages.append(image.managedObject())
-//            }
-//        }
-//
-//        databaseService?.remove(newImages)
         
-        self.collectionView!.performBatchUpdates({ [weak self] in
-            guard let self = self else { return }
-            self.collectionView!.deleteItems(at: indexPaths)
-
-        }, completion: nil)
-        print(#function)
-    }
-    
-    @objc private func actionBarButtonTapped(sender: UIBarButtonItem) {
-        print(#function)
-        
-        let shareController = UIActivityViewController(activityItems: selectedImages, applicationActivities: nil)
-        
-        
-        shareController.completionWithItemsHandler = { _, bool, _, _ in
-            if bool {
-                self.refresh()
-            }
+        self.databaseService?.remove(indexPaths)
+        if let objects = databaseService?.objects(){
+            imagesModel = objects
         }
         
-        shareController.popoverPresentationController?.barButtonItem = sender
-        shareController.popoverPresentationController?.permittedArrowDirections = .any
-        present(shareController, animated: true, completion: nil)
+        self.collectionView!.performBatchUpdates({
+            self.collectionView!.deleteItems(at: indexPaths)
+        }, completion: nil)
     }
+    
     
     // MARK: - Setup UI Elements
     
@@ -161,7 +122,6 @@ class ImagesCollectionViewController: UICollectionViewController {
         let cell = collectionView.cellForItem(at: indexPath) as! ImageCell
         guard let image = cell.photoImageView.image else { return }
             selectedImages.append(image)
-        
     }
     
     override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -173,16 +133,6 @@ class ImagesCollectionViewController: UICollectionViewController {
         }
     }
 }
-
-//// MARK: - UISearchBarDelegate
-//
-//extension ImagesCollectionViewController: UISearchBarDelegate {
-//
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        print(searchText)
-//
-//    }
-//}
 
 // MARK: - UICollectionViewDelegateFlowLayout
 

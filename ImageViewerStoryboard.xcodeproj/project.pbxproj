@@ -18,7 +18,6 @@
 		3B58AD192779EA860064F94B /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B58AD182779EA860064F94B /* NetworkError.swift */; };
 		3BA195482774B70B000D6752 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA195472774B70B000D6752 /* AppDelegate.swift */; };
 		3BA1954A2774B70B000D6752 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA195492774B70B000D6752 /* SceneDelegate.swift */; };
-		3BA1954C2774B70B000D6752 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA1954B2774B70B000D6752 /* ViewController.swift */; };
 		3BA1954F2774B70B000D6752 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BA1954D2774B70B000D6752 /* Main.storyboard */; };
 		3BA195512774B70C000D6752 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BA195502774B70C000D6752 /* Assets.xcassets */; };
 		3BA195542774B70C000D6752 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BA195522774B70C000D6752 /* LaunchScreen.storyboard */; };
@@ -44,7 +43,6 @@
 		3BA195442774B70B000D6752 /* ImageViewerStoryboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageViewerStoryboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BA195472774B70B000D6752 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3BA195492774B70B000D6752 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3BA1954B2774B70B000D6752 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3BA1954E2774B70B000D6752 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3BA195502774B70C000D6752 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3BA195532774B70C000D6752 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -91,7 +89,16 @@
 			path = Database;
 			sourceTree = "<group>";
 		};
-		3B58AD152779C3750064F94B /* Subviews */ = {
+		3B31CE54277B256700A5B1CC /* MainViews */ = {
+			isa = PBXGroup;
+			children = (
+				3BC049362775B47C00E3B805 /* ExploreViewConroller.swift */,
+				3BA195632774B9C9000D6752 /* ImagesCollectionViewController.swift */,
+			);
+			path = MainViews;
+			sourceTree = "<group>";
+		};
+		3B58AD152779C3750064F94B /* SubViews */ = {
 			isa = PBXGroup;
 			children = (
 				3B58AD162779C3B60064F94B /* PopUpView.swift */,
@@ -100,7 +107,7 @@
 				3B31CE4D277AE2F200A5B1CC /* ImageSetupTimerLabel.swift */,
 				3B58AD102778D6AE0064F94B /* ImageView.swift */,
 			);
-			path = Subviews;
+			path = SubViews;
 			sourceTree = "<group>";
 		};
 		3BA1953B2774B70B000D6752 = {
@@ -128,7 +135,6 @@
 				3BA195612774B99B000D6752 /* Network */,
 				3BA195472774B70B000D6752 /* AppDelegate.swift */,
 				3BA195492774B70B000D6752 /* SceneDelegate.swift */,
-				3BA1954B2774B70B000D6752 /* ViewController.swift */,
 				3BA1954D2774B70B000D6752 /* Main.storyboard */,
 				3BA195502774B70C000D6752 /* Assets.xcassets */,
 				3BA195522774B70C000D6752 /* LaunchScreen.storyboard */,
@@ -150,10 +156,9 @@
 		3BA195622774B9B2000D6752 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				3B58AD152779C3750064F94B /* Subviews */,
-				3BA195632774B9C9000D6752 /* ImagesCollectionViewController.swift */,
+				3B31CE54277B256700A5B1CC /* MainViews */,
+				3B58AD152779C3750064F94B /* SubViews */,
 				3BA195672774D301000D6752 /* TabBarConroller.swift */,
-				3BC049362775B47C00E3B805 /* ExploreViewConroller.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -240,7 +245,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B31CE53277B153E00A5B1CC /* DatabaseService.swift in Sources */,
-				3BA1954C2774B70B000D6752 /* ViewController.swift in Sources */,
 				3B31CE51277B0D7100A5B1CC /* RealmDatabaseService.swift in Sources */,
 				3BA195682774D301000D6752 /* TabBarConroller.swift in Sources */,
 				3BA1955C2774B8D5000D6752 /* UnsplashPhoto.swift in Sources */,

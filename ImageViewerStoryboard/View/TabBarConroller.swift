@@ -23,14 +23,14 @@ class MainTabBarController: UITabBarController {
         exploreView.setupDatabaseService(database)
         
         viewControllers = [
-            generateNavigationController(rootViewController: exploreView, title: "Photos", image: #imageLiteral(resourceName: "photos")),
-            generateNavigationController(rootViewController: favoritesPhotos, title: "Favourites", image: #imageLiteral(resourceName: "heart"))
+            createNavigationController(rootViewController: exploreView, title: "Photos", image: #imageLiteral(resourceName: "photos")),
+            createNavigationController(rootViewController: favoritesPhotos, title: "Favourites", image: #imageLiteral(resourceName: "heart"))
         ]
     }
     
 
     
-    private func generateNavigationController(rootViewController: UIViewController, title: String, image: UIImage) -> UIViewController {
+    private func createNavigationController(rootViewController: UIViewController, title: String, image: UIImage) -> UIViewController {
         let navigationVC = UINavigationController(rootViewController: rootViewController)
         navigationVC.tabBarItem.title = title
         navigationVC.tabBarItem.image = image

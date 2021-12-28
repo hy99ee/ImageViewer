@@ -19,16 +19,16 @@ extension UIView {
 final class ExploreViewConroller: UIViewController {
     
     private lazy var favoriteMark: UIBarButtonItem = {
-        return UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(favoriteMarkPressed))
+        return UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(favoriteMarkPressed))
     }()
     private var databaseService:DatabaseService?
     private var descriptionImageView:DescriptionImageView = DescriptionImageView()
     private let imageView = ImageView()
     private let networkDataFetcher:NetworkDataFetcher = NetworkDataFetcher()
-//    private let imageSetupTimer = UIBarButtonItem(customView: ImageSetupTimer())
-    lazy var imageSetupTimerLabel = ImageSetupTimerLabel(timeCount: 10, complition: setupImage)
+    private lazy var imageSetupTimerLabel = ImageSetupTimerLabel(timeCount: 10, complition: setupImage)
     private var isHidden = false
     private var _navigationsButtonsIsHidden:Bool = true
+    private let defaults = UserDefaults.standard
     private var navigationsButtonsIsHidden:Bool{
         set{
             if newValue{
@@ -42,8 +42,8 @@ final class ExploreViewConroller: UIViewController {
             return _navigationsButtonsIsHidden
         }
     }
-    // MARK: - View Life Cycle
     
+    // MARK: - View Life Cycle
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         isHidden = false
@@ -82,16 +82,26 @@ extension ExploreViewConroller{
                 self?.handleTheError(error: error)
             }
             else{
-                self?.handleEmptyError()
+                self?.handleEmptyError(unsplashPhoto: unsplashPhotoResult)
             }
-            
-            self?.handleTheResult(unsplashPhotoResult: unsplashPhotoResult)
         }
     }
     
-    private func handleEmptyError(){
+    private func handleEmptyError(unsplashPhoto:UnsplashPhoto?){
+        
         imageSetupTimerLabel.isError = false
         navigationsButtonsIsHidden = false
+        
+        descriptionImageView.unsplashPhoto = unsplashPhoto
+        imageView.unsplashPhoto = unsplashPhoto
+        
+        guard let unsplashPhoto = unsplashPhoto else {return}
+        defaults.set(unsplashPhoto.id,forKey: UnsplashPhotoKeys.keyId.rawValue)
+        defaults.set(unsplashPhoto.likes,forKey: UnsplashPhotoKeys.keyLikes.rawValue)
+        defaults.set(unsplashPhoto.downloads,forKey: UnsplashPhotoKeys.keyDownloads.rawValue)
+        defaults.set(unsplashPhoto.urls["regular"],forKey: UnsplashPhotoKeys.keyUrl.rawValue)
+        
+        
     }
     
     private func handleTheError(error:String){
@@ -99,13 +109,26 @@ extension ExploreViewConroller{
         errorRecieveNetworkData(error: error)
         imageSetupTimerLabel.isError = true
         navigationsButtonsIsHidden = true
+        
+        guard let id = defaults.object(forKey: UnsplashPhotoKeys.keyId.rawValue) as? String,
+              let likes = defaults.object(forKey: UnsplashPhotoKeys.keyLikes.rawValue) as? Int,
+              let downloads = defaults.object(forKey: UnsplashPhotoKeys.keyDownloads.rawValue) as? Int,
+              let url = defaults.object(forKey: UnsplashPhotoKeys.keyUrl.rawValue) as? String
+        else{
+            return
+        }
+        
+        let unsplashPhoto = UnsplashPhoto(id: id, width: 0, height: 0, color: "", created_at: "", updated_at: "", downloads: downloads, likes: likes, urls: [UnsplashPhoto.URLSizes.regular.rawValue: url])
+        
+
+        descriptionImageView.unsplashPhoto = unsplashPhoto
+        imageView.unsplashPhoto = unsplashPhoto
+
+
+//        descriptionImageView.unsplashPhoto = unsplashPhotoResult
+//        imageView.unsplashPhoto = unsplashPhotoResult
     }
     
-    private func handleTheResult(unsplashPhotoResult:UnsplashPhoto?){
-        descriptionImageView.unsplashPhoto = unsplashPhotoResult
-        imageView.unsplashPhoto = unsplashPhotoResult
-        
-    }
     
     private func errorRecieveNetworkData(error:String){
         SwiftEntryKit.display(entry: PopUpView(with: error), using: EKAttributes.topToast)

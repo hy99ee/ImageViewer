@@ -7,7 +7,7 @@
 import UIKit
 import SwiftEntryKit
 
-class PopUpView: UILabel {
+final class PopUpView: UILabel {
     
     private let textMessage:String
     

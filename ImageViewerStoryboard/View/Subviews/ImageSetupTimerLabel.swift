@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class ImageSetupTimerLabel: UILabel {
+final class ImageSetupTimerLabel: UILabel {
 
     private var _isError = false
     var isError:Bool{

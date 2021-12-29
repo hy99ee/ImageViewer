@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class DescriptionImageView: UILabel{
+final class DescriptionImageView: UILabel{
     
     override init(frame: CGRect = UIScreen.main.bounds) {
         super.init(frame: frame)

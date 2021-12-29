@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkDataFetcher{
+final class NetworkDataFetcher{
     let networkService = NetworkService()
     
     func fetchImage(complition: @escaping ((UnsplashPhoto?, String?)) -> Void){

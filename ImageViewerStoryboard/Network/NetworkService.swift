@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkService {
+final class NetworkService {
     let accesKey = "3_lbTW1lM_piVLPAo3EDhm8Ld_H-hd2TUTHBTWAfkM8"
     let secretKey = "sG7NZuKi0bOMHNl6HTHCscgu-3EONe8fJzwmOU_6iWk"
     

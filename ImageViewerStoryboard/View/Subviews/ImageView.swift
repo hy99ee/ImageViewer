@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import SDWebImage
 
-class ImageView: UIImageView {
+final class ImageView: UIImageView {
 
     var unsplashPhoto:UnsplashPhoto?{
         didSet{

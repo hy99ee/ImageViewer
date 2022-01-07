@@ -8,7 +8,7 @@
 import Foundation
 
 final class NetworkDataFetcher{
-    let networkService = NetworkService()
+    let networkService = Network()
     
     func fetchImage(complition: @escaping ((UnsplashPhoto?, String?)) -> Void){
         networkService.request() { (data, error) in
@@ -24,16 +24,6 @@ final class NetworkDataFetcher{
         }
     }
     
-    func fetchImages(complition: @escaping (UnsplashPhoto?) -> Void){
-        networkService.request() { (data, error) in
-            if let _ = error {
-                complition(nil)
-                return
-            }
-            let decode = self.decodeJSON(type: UnsplashPhoto.self, from: data)
-            complition(decode.0)
-        }
-    }
     
     func decodeJSON<T:Decodable>(type:T.Type, from data: Data?) -> (T?,String?){
         guard let data = data else {return (nil,nil)}
@@ -41,7 +31,7 @@ final class NetworkDataFetcher{
         do {
             let objects = try decoder.decode(type.self, from: data)
             return (objects,nil)
-        } catch let jsonError {
+        } catch _ {
             let error = NetworkError.ServiceError.rawValue
             return (nil, error)
         }

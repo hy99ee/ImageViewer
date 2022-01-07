@@ -7,6 +7,8 @@
 
 import UIKit
 import SwiftEntryKit
+import RxSwift
+import RxCocoa
 
 extension UIView {
     func addSubview(_ view:UIView, position:()->Void){
@@ -21,14 +23,14 @@ final class ExploreViewConroller: UIViewController {
     private lazy var favoriteMark: UIBarButtonItem = {
         return UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(favoriteMarkPressed))
     }()
-    private var databaseService:DatabaseService?
-    private var descriptionImageView:DescriptionImageView = DescriptionImageView()
+    
+    private var descriptionImageView = DescriptionImageView()
     private let imageView = ImageView()
-    private let networkDataFetcher:NetworkDataFetcher = NetworkDataFetcher()
-    private lazy var imageSetupTimerLabel = ImageSetupTimerLabel(timeCount: 10, complition: setupImage)
     private var isHidden = false
+    private let viewModel = ExploreViewModel()
+    private let bag = DisposeBag()
+    
     private var _navigationsButtonsIsHidden:Bool = true
-    private let defaults = UserDefaults.standard
     private var navigationsButtonsIsHidden:Bool{
         set{
             if newValue{
@@ -44,6 +46,8 @@ final class ExploreViewConroller: UIViewController {
     }
     
     // MARK: - View Life Cycle
+
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         isHidden = false
@@ -60,90 +64,96 @@ final class ExploreViewConroller: UIViewController {
         view.addSubview(imageView, position: photoViewPosition)
         view.addSubview(descriptionImageView, position: descriptionImageViewPosition)
         navigationsButtonsIsHidden = true
-        navigationItem.titleView = imageSetupTimerLabel
+        viewModel.databaseService = RealmDatabaseService()
+        viewModel.networkFetcher = NetworkDataFetcher()
+        viewModel.unsplashPhoto.asObservable().subscribe { [weak imageView, weak descriptionImageView] unsplashPhoto in
+            imageView?.unsplashPhoto = unsplashPhoto.element
+            descriptionImageView?.unsplashPhoto = unsplashPhoto.element
+        }.disposed(by: bag)
+
+//        navigationItem.titleView = imageSetupTimerLabel
+        
+        
     }
     
     // MARK: - Buttons actions
 
     @objc func favoriteMarkPressed() {
-        databaseService?.write(imageView.unsplashPhoto)
+//        databaseService?.write(imageView.unsplashPhoto)
+        viewModel.writeToDatabaseService()
         navigationsButtonsIsHidden = true
         
     }
 }
-
 
 // MARK: - receiving and handling images
-extension ExploreViewConroller{
-    
-    private func setupImage(){
-        self.networkDataFetcher.fetchImage {[weak self] (unsplashPhotoResult, error) in
-            if let error = error{
-                self?.handleTheError(error: error)
-            }
-            else{
-                self?.handleEmptyError(unsplashPhoto: unsplashPhotoResult)
-            }
-        }
-    }
-    
-    private func handleEmptyError(unsplashPhoto:UnsplashPhoto?){
-        
-        imageSetupTimerLabel.isError = false
-        navigationsButtonsIsHidden = false
-        
-        descriptionImageView.unsplashPhoto = unsplashPhoto
-        imageView.unsplashPhoto = unsplashPhoto
-        
-        guard let unsplashPhoto = unsplashPhoto else {return}
-        defaults.set(unsplashPhoto.id,forKey: UnsplashPhotoKeys.keyId.rawValue)
-        defaults.set(unsplashPhoto.likes,forKey: UnsplashPhotoKeys.keyLikes.rawValue)
-        defaults.set(unsplashPhoto.downloads,forKey: UnsplashPhotoKeys.keyDownloads.rawValue)
-        defaults.set(unsplashPhoto.urls["regular"],forKey: UnsplashPhotoKeys.keyUrl.rawValue)
-        
-        
-    }
-    
-    private func handleTheError(error:String){
-        if isHidden {return}
-        errorRecieveNetworkData(error: error)
-        imageSetupTimerLabel.isError = true
-        navigationsButtonsIsHidden = true
-        
-        guard let id = defaults.object(forKey: UnsplashPhotoKeys.keyId.rawValue) as? String,
-              let likes = defaults.object(forKey: UnsplashPhotoKeys.keyLikes.rawValue) as? Int,
-              let downloads = defaults.object(forKey: UnsplashPhotoKeys.keyDownloads.rawValue) as? Int,
-              let url = defaults.object(forKey: UnsplashPhotoKeys.keyUrl.rawValue) as? String
-        else{
-            return
-        }
-        
-        let unsplashPhoto = UnsplashPhoto(id: id, width: 0, height: 0, color: "", created_at: "", updated_at: "", downloads: downloads, likes: likes, urls: [UnsplashPhoto.URLSizes.regular.rawValue: url])
-        
-
-        descriptionImageView.unsplashPhoto = unsplashPhoto
-        imageView.unsplashPhoto = unsplashPhoto
-
-
-//        descriptionImageView.unsplashPhoto = unsplashPhotoResult
-//        imageView.unsplashPhoto = unsplashPhotoResult
-    }
-    
-    
-    private func errorRecieveNetworkData(error:String){
-        SwiftEntryKit.display(entry: PopUpView(with: error), using: EKAttributes.topToast)
-    }
-}
+//extension ExploreViewConroller {
+//
+//    func setupImage(){
+//        self.networkDataFetcher.fetchImage {[weak self] (unsplashPhotoResult, error) in
+//            if let error = error{
+//                self?.handleTheError(error: error)
+//            }
+//            else{
+//                self?.handleEmptyError(unsplashPhoto: unsplashPhotoResult)
+//            }
+//        }
+//    }
+//
+//    func handleEmptyError(unsplashPhoto:UnsplashPhoto?){
+//
+//        imageSetupTimerLabel.isError = false
+//        navigationsButtonsIsHidden = false
+//
+//        descriptionImageView.unsplashPhoto = unsplashPhoto
+//        imageView.unsplashPhoto = unsplashPhoto
+//
+//        guard let unsplashPhoto = unsplashPhoto else {return}
+//        defaults.set(unsplashPhoto.id,forKey: UnsplashPhotoKeys.keyId.rawValue)
+//        defaults.set(unsplashPhoto.likes,forKey: UnsplashPhotoKeys.keyLikes.rawValue)
+//        defaults.set(unsplashPhoto.downloads,forKey: UnsplashPhotoKeys.keyDownloads.rawValue)
+//        defaults.set(unsplashPhoto.urls["regular"],forKey: UnsplashPhotoKeys.keyUrl.rawValue)
+//    }
+//
+//    func handleTheError(error:String){
+//        if isHidden {return}
+//        errorRecieveNetworkData(error: error)
+//        imageSetupTimerLabel.isError = true
+//        navigationsButtonsIsHidden = true
+//
+//        guard let id = defaults.object(forKey: UnsplashPhotoKeys.keyId.rawValue) as? String,
+//              let likes = defaults.object(forKey: UnsplashPhotoKeys.keyLikes.rawValue) as? Int,
+//              let downloads = defaults.object(forKey: UnsplashPhotoKeys.keyDownloads.rawValue) as? Int,
+//              let url = defaults.object(forKey: UnsplashPhotoKeys.keyUrl.rawValue) as? String
+//        else{
+//            return
+//        }
+//
+//        let unsplashPhoto = UnsplashPhoto(id: id, width: 0, height: 0, color: "", created_at: "", updated_at: "", downloads: downloads, likes: likes, urls: [UnsplashPhoto.URLSizes.regular.rawValue: url])
+//
+//
+//        descriptionImageView.unsplashPhoto = unsplashPhoto
+//        imageView.unsplashPhoto = unsplashPhoto
+//
+//    }
+//
+//
+//    private func errorRecieveNetworkData(error:String){
+//        SwiftEntryKit.display(entry: PopUpView(with: error), using: EKAttributes.topToast)
+//    }
+//}
 
 
 // MARK: - Setup UI elements position
 extension ExploreViewConroller {
     
     private func photoViewPosition(){
-        imageView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.6).isActive = true
-        imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            imageView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.6),
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        ])
     }
     
     
@@ -155,12 +165,3 @@ extension ExploreViewConroller {
         ])
     }
 }
-
-extension ExploreViewConroller : DatabaseServiceWorking{
-    
-    func setupDatabaseService(_ databaseService: DatabaseService) {
-        self.databaseService = databaseService
-    }
-    
-}
-

@@ -8,11 +8,11 @@
 import Foundation
 import UIKit
 
-class ImagesCollectionViewController: UICollectionViewController {
+class ImagesCollectionViewController: UICollectionViewController, DatabaseServiceWorking {
     
     var networkDataFetcher = NetworkDataFetcher()
     private var timer: Timer?
-    private var databaseService:DatabaseService?
+    var databaseService:DatabaseService!
 //    private var realm = try! Realm()
     
     private var imagesModel:[UnsplashPhoto?] = []
@@ -156,11 +156,3 @@ extension ImagesCollectionViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-
-extension ImagesCollectionViewController: DatabaseServiceWorking{
-    
-    func setupDatabaseService(_ databaseService: DatabaseService) {
-        self.databaseService = databaseService
-    }
-    
-}

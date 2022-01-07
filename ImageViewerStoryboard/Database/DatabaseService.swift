@@ -15,5 +15,5 @@ protocol DatabaseService{
 }
 
 protocol DatabaseServiceWorking{
-    func setupDatabaseService(_ databaseService:DatabaseService)
+    var databaseService:DatabaseService! {get set}
 }

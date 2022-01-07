@@ -28,6 +28,7 @@ struct UnsplashPhoto: Decodable, Hashable{
     }
 }
 
+
 enum UnsplashPhotoKeys: String{
     case keyId = "id"
     case keyLikes = "likes"

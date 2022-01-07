@@ -18,9 +18,9 @@ final class MainTabBarController: UITabBarController {
         let database = RealmDatabaseService()
         
         let favoritesPhotos = ImagesCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
-        favoritesPhotos.setupDatabaseService(database)
+        favoritesPhotos.databaseService = database
         let exploreView = ExploreViewConroller()
-        exploreView.setupDatabaseService(database)
+//        exploreView.databaseService = database
         
         viewControllers = [
             createNavigationController(rootViewController: exploreView, title: "Photos", image: #imageLiteral(resourceName: "photos")),

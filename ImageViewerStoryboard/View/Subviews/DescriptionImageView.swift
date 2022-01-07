@@ -33,7 +33,7 @@ final class DescriptionImageView: UILabel{
             }
             show()
             var str = ""
-            str.append("ID - \(unsplashPhoto.id)"); str.append("\n")
+//            str.append("ID - \(unsplashPhoto.id)"); str.append("\n")
             str.append("Likes - \(unsplashPhoto.likes)"); str.append("\n")
             str.append("Downloads - \(unsplashPhoto.downloads)")
             self.text = str

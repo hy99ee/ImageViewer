@@ -29,7 +29,7 @@ final class ExploreViewConroller: UIViewController {
     private var isHidden = false
     private let viewModel = ExploreViewModel()
     private let bag = DisposeBag()
-    
+    private let timerLabel:UILabel = UILabel()
     private var _navigationsButtonsIsHidden:Bool = true
     private var navigationsButtonsIsHidden:Bool{
         set{
@@ -63,18 +63,30 @@ final class ExploreViewConroller: UIViewController {
         view.backgroundColor = .white
         view.addSubview(imageView, position: photoViewPosition)
         view.addSubview(descriptionImageView, position: descriptionImageViewPosition)
-        navigationsButtonsIsHidden = true
+        timerLabel.text = "0"
+        navigationItem.titleView = timerLabel
+//        navigationsButtonsIsHidden = true
+        // TODO: this must be in the create layer
         viewModel.databaseService = RealmDatabaseService()
         viewModel.networkFetcher = NetworkDataFetcher()
         viewModel.unsplashPhoto.asObservable().subscribe { [weak imageView, weak descriptionImageView] unsplashPhoto in
             imageView?.unsplashPhoto = unsplashPhoto.element
             descriptionImageView?.unsplashPhoto = unsplashPhoto.element
         }.disposed(by: bag)
-
-//        navigationItem.titleView = imageSetupTimerLabel
+        viewModel.timer.timerCount.asObservable().subscribe { [weak self] timerCount in
+            print(timerCount)
+            self?.updateTimerLabel(timerCount: timerCount.element ?? 0)
+        }.disposed(by: bag)
         
+//        navigationItem.titleView = imageSetupTimerLabel
+    }
+    
+    private func updateTimerLabel(timerCount:Int){
+        timerLabel.text = String(timerCount)
         
     }
+    
+    
     
     // MARK: - Buttons actions
 

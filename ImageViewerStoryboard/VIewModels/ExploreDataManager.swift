@@ -19,15 +19,15 @@ class ExploreViewModel:DatabaseServiceWorking, NetworkServiceWorking {
     var unsplashPhoto = BehaviorRelay(value: UnsplashPhoto(id: "", width: 0, height: 0, color: "", created_at: "", updated_at: "", downloads: 0, likes: 0, urls: [:]))
     private let defaults = UserDefaults.standard
     private let updateTime = 10
-    private let timer:ImageSetupTimer!
+    let timer:ImageSetupTimer!
     
 
     init(){
         
         timer = ImageSetupTimer(timeCount: updateTime)
         timer.timerCount.asObservable()
-            .filter { [weak self] value in
-                value == self?.updateTime
+            .filter { [updateTime] value in
+                value == updateTime
             }
             .subscribe { [weak self] time in
             guard let self = self else {return}

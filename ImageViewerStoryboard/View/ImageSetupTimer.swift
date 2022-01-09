@@ -16,15 +16,15 @@ final class ImageSetupTimer {
     var isError:Bool{
         set{
             _isError = newValue
-            if newValue {
-                self.timerCount.accept(timeCountError)
-            }
+//            if newValue {
+//                self.timerCount.accept(timeCountError)
+//            }
         }
         get{
             _isError
         }
     }
-    var timerCount = BehaviorRelay(value: Int())
+    var timerCount = BehaviorRelay(value: Int(0))
     private let timeCountDefault:Int
     private let timeCountError = 5
     private var timer = Timer()
@@ -45,7 +45,7 @@ final class ImageSetupTimer {
                 self.timerCount.accept(self.timerCount.value - 1)
             }
             else{
-                self.timerCount.accept(self.isError ? self.timeCountError : self.timeCountDefault)
+                self.timerCount.accept(self._isError ? self.timeCountError : self.timeCountDefault)
             }
         }
     }

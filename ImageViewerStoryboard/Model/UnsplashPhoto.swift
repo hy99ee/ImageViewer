@@ -8,6 +8,7 @@
 import Foundation
 import RealmSwift
 
+
 struct UnsplashPhoto: Decodable, Hashable{
     let id: String
     let width: Int

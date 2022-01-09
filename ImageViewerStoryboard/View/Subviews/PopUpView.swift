@@ -12,8 +12,8 @@ final class PopUpView: UILabel {
     private let textMessage:String
     
     
-    init(with textMessage:String) {
-        self.textMessage = textMessage
+    init(with error:ImageError) {
+        self.textMessage = error.localizedDescription
         super.init(frame: UIScreen.main.bounds)
         setupTextOnLabel()
 //        addSubview(Text(error))
@@ -25,8 +25,8 @@ final class PopUpView: UILabel {
         backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
         text = textMessage
         textColor = .white
-        font = UIFont.systemFont(ofSize: 22, weight: UIFont.Weight.semibold)
-        heightAnchor.constraint(equalToConstant: 40).isActive = true
+        font = UIFont.systemFont(ofSize: 23, weight: UIFont.Weight.semibold)
+        heightAnchor.constraint(equalToConstant: 45).isActive = true
         textAlignment = .center
     }
     

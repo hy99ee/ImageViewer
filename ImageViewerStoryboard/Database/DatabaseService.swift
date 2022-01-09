@@ -15,5 +15,5 @@ protocol DatabaseService{
 }
 
 protocol DatabaseServiceWorking{
-    var databaseService:DatabaseService! {get set}
+    var databaseService:DatabaseService! {get}
 }

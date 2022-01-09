@@ -16,11 +16,10 @@ final class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         
         let database = RealmDatabaseService()
-        
-        let favoritesPhotos = ImagesCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
-        favoritesPhotos.databaseService = database
+        let network = NetworkDataFetcher()
+        let favoritesPhotos = ImagesCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout(), databaseService: database)
         let exploreView = ExploreViewConroller()
-//        exploreView.databaseService = database
+        exploreView.viewModel = ExploreViewModel(networkFetcher: network, databaseService: database)
         
         viewControllers = [
             createNavigationController(rootViewController: exploreView, title: "Photos", image: #imageLiteral(resourceName: "photos")),

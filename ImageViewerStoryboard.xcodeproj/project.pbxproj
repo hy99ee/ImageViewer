@@ -13,8 +13,10 @@
 		3B31CE53277B153E00A5B1CC /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B31CE52277B153E00A5B1CC /* DatabaseService.swift */; };
 		3B58AD112778D6AE0064F94B /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B58AD102778D6AE0064F94B /* ImageView.swift */; };
 		3B58AD172779C3B60064F94B /* PopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B58AD162779C3B60064F94B /* PopUpView.swift */; };
-		3B58AD192779EA860064F94B /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B58AD182779EA860064F94B /* NetworkError.swift */; };
+		3B58AD192779EA860064F94B /* NetworkErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B58AD182779EA860064F94B /* NetworkErrors.swift */; };
 		3B70C7BC278236B900257825 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B70C7BB278236B900257825 /* NetworkService.swift */; };
+		3B85D03A278B0C79000F5741 /* DatabaseErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B85D039278B0C79000F5741 /* DatabaseErrors.swift */; };
+		3B85D03C278B0E6B000F5741 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B85D03B278B0E6B000F5741 /* Error.swift */; };
 		3BA195482774B70B000D6752 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA195472774B70B000D6752 /* AppDelegate.swift */; };
 		3BA1954A2774B70B000D6752 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA195492774B70B000D6752 /* SceneDelegate.swift */; };
 		3BA1954F2774B70B000D6752 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BA1954D2774B70B000D6752 /* Main.storyboard */; };
@@ -26,7 +28,7 @@
 		3BA195642774B9C9000D6752 /* ImagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA195632774B9C9000D6752 /* ImagesCollectionViewController.swift */; };
 		3BA195662774BA2D000D6752 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA195652774BA2D000D6752 /* ImageCell.swift */; };
 		3BA195682774D301000D6752 /* TabBarConroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA195672774D301000D6752 /* TabBarConroller.swift */; };
-		3BABF38D278204520098062D /* ExploreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BABF38C278204520098062D /* ExploreDataManager.swift */; };
+		3BABF38D278204520098062D /* ExploreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BABF38C278204520098062D /* ExploreViewModel.swift */; };
 		3BB8D3AD277A4A73004B4E65 /* DescriptionImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB8D3AC277A4A73004B4E65 /* DescriptionImageView.swift */; };
 		3BC049372775B47C00E3B805 /* ExploreViewConroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC049362775B47C00E3B805 /* ExploreViewConroller.swift */; };
 		AD9AC163E380EBA5649399A3 /* Pods_ImageViewerStoryboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97D477BB99D84EC156B86756 /* Pods_ImageViewerStoryboard.framework */; };
@@ -40,8 +42,10 @@
 		3B31CE52277B153E00A5B1CC /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		3B58AD102778D6AE0064F94B /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		3B58AD162779C3B60064F94B /* PopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpView.swift; sourceTree = "<group>"; };
-		3B58AD182779EA860064F94B /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		3B58AD182779EA860064F94B /* NetworkErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrors.swift; sourceTree = "<group>"; };
 		3B70C7BB278236B900257825 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		3B85D039278B0C79000F5741 /* DatabaseErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseErrors.swift; sourceTree = "<group>"; };
+		3B85D03B278B0E6B000F5741 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		3BA195442774B70B000D6752 /* ImageViewerStoryboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageViewerStoryboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BA195472774B70B000D6752 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3BA195492774B70B000D6752 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -55,7 +59,7 @@
 		3BA195632774B9C9000D6752 /* ImagesCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesCollectionViewController.swift; sourceTree = "<group>"; };
 		3BA195652774BA2D000D6752 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		3BA195672774D301000D6752 /* TabBarConroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarConroller.swift; sourceTree = "<group>"; };
-		3BABF38C278204520098062D /* ExploreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreDataManager.swift; sourceTree = "<group>"; };
+		3BABF38C278204520098062D /* ExploreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewModel.swift; sourceTree = "<group>"; };
 		3BB8D3AC277A4A73004B4E65 /* DescriptionImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionImageView.swift; sourceTree = "<group>"; };
 		3BC049362775B47C00E3B805 /* ExploreViewConroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewConroller.swift; sourceTree = "<group>"; };
 		6D89BBA352816DAAFAABA8C5 /* Pods-ImageViewerStoryboard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageViewerStoryboard.debug.xcconfig"; path = "Target Support Files/Pods-ImageViewerStoryboard/Pods-ImageViewerStoryboard.debug.xcconfig"; sourceTree = "<group>"; };
@@ -79,6 +83,7 @@
 			children = (
 				3BA1955B2774B8D5000D6752 /* UnsplashPhoto.swift */,
 				3B23047027771BDF0001028A /* UnsplashPhotoObject.swift */,
+				3B85D03B278B0E6B000F5741 /* Error.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -88,6 +93,7 @@
 			children = (
 				3B31CE50277B0D7100A5B1CC /* RealmDatabaseService.swift */,
 				3B31CE52277B153E00A5B1CC /* DatabaseService.swift */,
+				3B85D039278B0C79000F5741 /* DatabaseErrors.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -107,7 +113,6 @@
 				3B58AD162779C3B60064F94B /* PopUpView.swift */,
 				3BA195652774BA2D000D6752 /* ImageCell.swift */,
 				3BB8D3AC277A4A73004B4E65 /* DescriptionImageView.swift */,
-				3B31CE4D277AE2F200A5B1CC /* ImageSetupTimer.swift */,
 				3B58AD102778D6AE0064F94B /* ImageView.swift */,
 			);
 			path = SubViews;
@@ -154,7 +159,7 @@
 			children = (
 				3BA1955F2774B91E000D6752 /* Network.swift */,
 				3BA1955D2774B906000D6752 /* NetworkDataFetcher.swift */,
-				3B58AD182779EA860064F94B /* NetworkError.swift */,
+				3B58AD182779EA860064F94B /* NetworkErrors.swift */,
 				3B70C7BB278236B900257825 /* NetworkService.swift */,
 			);
 			path = Network;
@@ -166,6 +171,7 @@
 				3B31CE54277B256700A5B1CC /* MainViews */,
 				3B58AD152779C3750064F94B /* SubViews */,
 				3BA195672774D301000D6752 /* TabBarConroller.swift */,
+				3B31CE4D277AE2F200A5B1CC /* ImageSetupTimer.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -173,7 +179,7 @@
 		3BEAF022278837B000821592 /* VIewModels */ = {
 			isa = PBXGroup;
 			children = (
-				3BABF38C278204520098062D /* ExploreDataManager.swift */,
+				3BABF38C278204520098062D /* ExploreViewModel.swift */,
 			);
 			path = VIewModels;
 			sourceTree = "<group>";
@@ -319,16 +325,18 @@
 				3BA1954A2774B70B000D6752 /* SceneDelegate.swift in Sources */,
 				3BA195642774B9C9000D6752 /* ImagesCollectionViewController.swift in Sources */,
 				3BB8D3AD277A4A73004B4E65 /* DescriptionImageView.swift in Sources */,
+				3B85D03A278B0C79000F5741 /* DatabaseErrors.swift in Sources */,
 				3B31CE4E277AE2F200A5B1CC /* ImageSetupTimer.swift in Sources */,
 				3B58AD172779C3B60064F94B /* PopUpView.swift in Sources */,
 				3BA195662774BA2D000D6752 /* ImageCell.swift in Sources */,
-				3B58AD192779EA860064F94B /* NetworkError.swift in Sources */,
+				3B58AD192779EA860064F94B /* NetworkErrors.swift in Sources */,
 				3B23047127771BDF0001028A /* UnsplashPhotoObject.swift in Sources */,
 				3BA195602774B91E000D6752 /* Network.swift in Sources */,
 				3B70C7BC278236B900257825 /* NetworkService.swift in Sources */,
 				3BA1955E2774B906000D6752 /* NetworkDataFetcher.swift in Sources */,
 				3BC049372775B47C00E3B805 /* ExploreViewConroller.swift in Sources */,
-				3BABF38D278204520098062D /* ExploreDataManager.swift in Sources */,
+				3B85D03C278B0E6B000F5741 /* Error.swift in Sources */,
+				3BABF38D278204520098062D /* ExploreViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

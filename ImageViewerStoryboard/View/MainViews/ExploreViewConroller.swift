@@ -85,7 +85,7 @@ final class ExploreViewConroller: UIViewController {
         }, onError: { error in
             print(error.localizedDescription)
         }).disposed(by: bag)
-        viewModel.timer.timerCount.asObservable().subscribe { [weak self] timerCount in
+        viewModel.timer?.timerCount.asObservable().subscribe { [weak self] timerCount in
             self?.updateTimerLabel(timerCount: timerCount.element ?? 0)
         }.disposed(by: bag)
         

@@ -10,16 +10,15 @@ import UIKit
 
 class ImagesCollectionViewController: UICollectionViewController, DatabaseServiceWorking {
     
-    init(collectionViewLayout: UICollectionViewFlowLayout,databaseService: DatabaseService) {
+    init(collectionViewLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()) {
         super.init(collectionViewLayout: collectionViewLayout)
-        self.databaseService = databaseService
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var databaseService: DatabaseService!
+    var databaseService: DatabaseService?
     private var imagesModel:[UnsplashPhoto?] = []
     private var selectedImages = [UIImage]()
     private let itemsPerRow: CGFloat = 2

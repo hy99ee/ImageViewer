@@ -11,4 +11,5 @@ target 'ImageViewerStoryboard' do
     pod 'SwiftEntryKit', '2.0.0'
     pod 'RxSwift', '6.2.0'
     pod 'RxCocoa', '6.2.0'
+    pod "EasyDi"
 end

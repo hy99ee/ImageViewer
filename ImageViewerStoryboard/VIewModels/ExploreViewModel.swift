@@ -9,26 +9,27 @@ import Foundation
 import UIKit
 import RxSwift
 import RxCocoa
+import SwiftUI
 
-
-class ExploreViewModel:DatabaseServiceWorking, NetworkServiceWorking {
-        
-    var databaseService: DatabaseService!
-    var networkFetcher: NetworkDataFetcher!
+//create from dependency container
+final class ExploreViewModel: DatabaseServiceWorking, NetworkFetchServiceWorking {
+    
+    var networkFetcher: NetworkFetchService?
+    var databaseService: DatabaseService?
+    var timer:ImageSetupTimer?
     let bag = DisposeBag()
-    var unsplashPhoto = BehaviorRelay<(data:UnsplashPhoto?,error:ImageError?)>(value: (UnsplashPhoto(id: "", width: 0, height: 0, color: "", created_at: "", updated_at: "", downloads: 0, likes: 0, urls: [:]),nil))
     private let defaults = UserDefaults.standard
     private let updateTime = 10
-    let timer:ImageSetupTimer!
+    var unsplashPhoto = BehaviorRelay<(data:UnsplashPhoto?,error:ImageError?)>(value: (UnsplashPhoto(id: "", width: 0, height: 0, color: "", created_at: "", updated_at: "", downloads: 0, likes: 0, urls: [:]),nil))
+    var isCreated = false {
+        didSet{
+            startTimer()
+        }
+    }
     
-    
-    init(networkFetcher:NetworkDataFetcher, databaseService: DatabaseService) {
-        
-        self.networkFetcher = networkFetcher
-        self.databaseService = databaseService
-        
+    private func startTimer(){
         timer = ImageSetupTimer(timeCount: updateTime)
-        timer.timerCount.asObservable()
+        timer?.timerCount.asObservable()
             .filter { value in
                 value == 0
             }
@@ -38,7 +39,6 @@ class ExploreViewModel:DatabaseServiceWorking, NetworkServiceWorking {
         }
             .disposed(by: bag)
     }
- 
     
     public func writeToDatabaseService() {
         databaseService?.write(unsplashPhoto.value.data)
@@ -46,7 +46,7 @@ class ExploreViewModel:DatabaseServiceWorking, NetworkServiceWorking {
     
     // MARK: - receiving and handling images
     func setupImage(){
-        self.networkFetcher.fetchImage {[weak self] (unsplashPhotoResult, error) in
+        self.networkFetcher?.fetchImage {[weak self] (unsplashPhotoResult, error) in
             if let error = error{
                 self?.handleTheError(error: error)
             }
@@ -64,7 +64,7 @@ class ExploreViewModel:DatabaseServiceWorking, NetworkServiceWorking {
         defaults.set(unsplashPhoto.likes,forKey: UnsplashPhotoKeys.keyLikes.rawValue)
         defaults.set(unsplashPhoto.downloads,forKey: UnsplashPhotoKeys.keyDownloads.rawValue)
         defaults.set(unsplashPhoto.urls["regular"],forKey: UnsplashPhotoKeys.keyUrl.rawValue)
-        timer.isError = false
+        timer?.isError = false
     }
     
     
@@ -77,7 +77,7 @@ class ExploreViewModel:DatabaseServiceWorking, NetworkServiceWorking {
            let url = defaults.object(forKey: UnsplashPhotoKeys.keyUrl.rawValue) as? String{
             unsplashPhoto = UnsplashPhoto(id: id, width: 0, height: 0, color: "", created_at: "", updated_at: "", downloads: downloads, likes: likes, urls: [UnsplashPhoto.URLSizes.regular.rawValue: url])
         }
-        timer.isError = true
+        timer?.isError = true
         
         
         self.unsplashPhoto.accept((unsplashPhoto,error))

@@ -7,6 +7,10 @@
 
 import Foundation
 
-protocol NetworkServiceWorking{
-    var networkFetcher:NetworkDataFetcher! {get set}
+protocol NetworkFetchServiceWorking{
+    var networkFetcher:NetworkFetchService? {get}
+}
+
+protocol NetworkFetchService{
+    func fetchImage(complition: @escaping ((UnsplashPhoto?, ImageError?)) -> Void)
 }

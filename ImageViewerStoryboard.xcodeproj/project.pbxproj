@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B0250CC27900CE700986046 /* ImagesCollectionViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0250CB27900CE700986046 /* ImagesCollectionViewAssembly.swift */; };
+		3B0250CE279012D300986046 /* ExploreViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0250CD279012D300986046 /* ExploreViewAssembly.swift */; };
 		3B23047127771BDF0001028A /* UnsplashPhotoObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B23047027771BDF0001028A /* UnsplashPhotoObject.swift */; };
 		3B31CE4E277AE2F200A5B1CC /* ImageSetupTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B31CE4D277AE2F200A5B1CC /* ImageSetupTimer.swift */; };
 		3B31CE51277B0D7100A5B1CC /* RealmDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B31CE50277B0D7100A5B1CC /* RealmDatabaseService.swift */; };
@@ -36,6 +38,8 @@
 
 /* Begin PBXFileReference section */
 		2B8C0E77F207B294A699CC7F /* Pods-ImageViewerStoryboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageViewerStoryboard.release.xcconfig"; path = "Target Support Files/Pods-ImageViewerStoryboard/Pods-ImageViewerStoryboard.release.xcconfig"; sourceTree = "<group>"; };
+		3B0250CB27900CE700986046 /* ImagesCollectionViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesCollectionViewAssembly.swift; sourceTree = "<group>"; };
+		3B0250CD279012D300986046 /* ExploreViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewAssembly.swift; sourceTree = "<group>"; };
 		3B23047027771BDF0001028A /* UnsplashPhotoObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashPhotoObject.swift; sourceTree = "<group>"; };
 		3B31CE4D277AE2F200A5B1CC /* ImageSetupTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSetupTimer.swift; sourceTree = "<group>"; };
 		3B31CE50277B0D7100A5B1CC /* RealmDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmDatabaseService.swift; sourceTree = "<group>"; };
@@ -78,6 +82,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B0250CA27900CBF00986046 /* Assemby */ = {
+			isa = PBXGroup;
+			children = (
+				3B0250CB27900CE700986046 /* ImagesCollectionViewAssembly.swift */,
+				3B0250CD279012D300986046 /* ExploreViewAssembly.swift */,
+			);
+			path = Assemby;
+			sourceTree = "<group>";
+		};
 		3B23046F27771BB00001028A /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +152,7 @@
 		3BA195462774B70B000D6752 /* ImageViewerStoryboard */ = {
 			isa = PBXGroup;
 			children = (
+				3B0250CA27900CBF00986046 /* Assemby */,
 				3BEAF022278837B000821592 /* VIewModels */,
 				3B31CE4F277B0D4100A5B1CC /* Database */,
 				3B23046F27771BB00001028A /* Model */,
@@ -321,6 +335,7 @@
 				3BA195682774D301000D6752 /* TabBarConroller.swift in Sources */,
 				3BA1955C2774B8D5000D6752 /* UnsplashPhoto.swift in Sources */,
 				3BA195482774B70B000D6752 /* AppDelegate.swift in Sources */,
+				3B0250CE279012D300986046 /* ExploreViewAssembly.swift in Sources */,
 				3B58AD112778D6AE0064F94B /* ImageView.swift in Sources */,
 				3BA1954A2774B70B000D6752 /* SceneDelegate.swift in Sources */,
 				3BA195642774B9C9000D6752 /* ImagesCollectionViewController.swift in Sources */,
@@ -334,6 +349,7 @@
 				3BA195602774B91E000D6752 /* Network.swift in Sources */,
 				3B70C7BC278236B900257825 /* NetworkService.swift in Sources */,
 				3BA1955E2774B906000D6752 /* NetworkDataFetcher.swift in Sources */,
+				3B0250CC27900CE700986046 /* ImagesCollectionViewAssembly.swift in Sources */,
 				3BC049372775B47C00E3B805 /* ExploreViewConroller.swift in Sources */,
 				3B85D03C278B0E6B000F5741 /* Error.swift in Sources */,
 				3BABF38D278204520098062D /* ExploreViewModel.swift in Sources */,

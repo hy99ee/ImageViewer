@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class NetworkDataFetcher{
+final class NetworkDataFetcher : NetworkFetchService{
     let networkService = Network()
     
     func fetchImage(complition: @escaping ((UnsplashPhoto?, ImageError?)) -> Void){
@@ -24,7 +24,7 @@ final class NetworkDataFetcher{
     }
     
     
-    func decodeJSON<T:Decodable>(type:T.Type, from data: Data?) -> (T?,ImageError?){
+    private func decodeJSON<T:Decodable>(type:T.Type, from data: Data?) -> (T?,ImageError?){
         guard let data = data else {return (nil,nil)}
         let decoder = JSONDecoder()
         do {

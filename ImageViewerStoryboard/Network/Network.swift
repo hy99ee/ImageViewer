@@ -37,8 +37,8 @@ final class Network {
         return headers
     }
     private func prepareParams() -> [String:String]{
-        var params = [String:String]()
-        params["orientation"] = "squarish"
+        let params:[String:String] = [:]
+//        params["orientation"] = "squarish"
         
         return params
     }

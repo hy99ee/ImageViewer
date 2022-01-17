@@ -127,6 +127,7 @@
 				3BA195652774BA2D000D6752 /* ImageCell.swift */,
 				3BB8D3AC277A4A73004B4E65 /* DescriptionImageView.swift */,
 				3B58AD102778D6AE0064F94B /* ImageView.swift */,
+				3BA1954D2774B70B000D6752 /* Main.storyboard */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -160,7 +161,6 @@
 				3BA195612774B99B000D6752 /* Network */,
 				3BA195472774B70B000D6752 /* AppDelegate.swift */,
 				3BA195492774B70B000D6752 /* SceneDelegate.swift */,
-				3BA1954D2774B70B000D6752 /* Main.storyboard */,
 				3BA195502774B70C000D6752 /* Assets.xcassets */,
 				3BA195522774B70C000D6752 /* LaunchScreen.storyboard */,
 				3BA195552774B70C000D6752 /* Info.plist */,

@@ -10,19 +10,13 @@ import SwiftEntryKit
 import RxSwift
 import RxCocoa
 
-extension UIView {
-    func addSubview(_ view:UIView, position:()->Void){
-        addSubview(view)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        position()
-    }
-}
 
 final class ExploreViewConroller: UIViewController {
     
     var viewModel:ExploreViewModel!
-    private var descriptionImageView = DescriptionImageView()
+    private var descriptionImageView:DescriptionImageView!
     private let imageView = ImageView()
+    private var scrollView: UIScrollView!
     private var isHidden = false
     private let bag = DisposeBag()
     private let timerLabel = UILabel()
@@ -40,11 +34,13 @@ final class ExploreViewConroller: UIViewController {
                 navigationItem.rightBarButtonItem = favoriteMark
                 navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: timerLabel)
             }
+            _navigationsButtonsIsHidden = newValue
         }
         get{
             return _navigationsButtonsIsHidden
         }
     }
+
     
     // MARK: - View Life Cycle
 
@@ -62,14 +58,24 @@ final class ExploreViewConroller: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        view.addSubview(imageView, position: photoViewPosition)
-        view.addSubview(descriptionImageView, position: descriptionImageViewPosition)
+            
+        scrollView = UIScrollView(frame: view.bounds)
+        scrollView.contentSize = view.bounds.size
+        scrollView.addSubview(imageView)
+        descriptionImageView = DescriptionImageView()
+        descriptionImageView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 100)
+
+        scrollView.addSubview(descriptionImageView)
+        view.addSubview(scrollView)
+            
+        imageView.heightImage.asObservable().subscribe(onNext: { [weak self] height in
+            self?.descriptionImageView.frame = CGRect(x: 0, y: height + 10, width: (self?.view?.bounds.width ?? 0), height: 100)
+            
+        }).disposed(by: bag)
+
+        
         timerLabelPosition()
         
-//        navigationItem.le
-//        navigationsButtonsIsHidden = true
-        // TODO: this must be in the create layer
-
         viewModel.unsplashPhoto.asObservable().subscribe(onNext: { [weak self] unsplashPhoto in
             guard let self = self else {return}
             if let error = unsplashPhoto.error {
@@ -90,6 +96,7 @@ final class ExploreViewConroller: UIViewController {
         }.disposed(by: bag)
         
     }
+    
     
     private func updateTimerLabel(timerCount:Int){
         timerLabel.text = String(timerCount)
@@ -125,23 +132,5 @@ extension ExploreViewConroller {
         timerLabel.textAlignment = .left
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: timerLabel)
         
-    }
-    
-    private func photoViewPosition(){
-        NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.6),
-            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
-        ])
-    }
-    
-    
-    private func descriptionImageViewPosition(){
-        NSLayoutConstraint.activate([
-            descriptionImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            descriptionImageView.widthAnchor.constraint(equalTo: self.view.widthAnchor),
-            descriptionImageView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10)
-        ])
     }
 }
